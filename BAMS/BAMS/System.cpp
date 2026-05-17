@@ -24,6 +24,8 @@ void System::mainMenu() {
         cout << "3. 开户" << endl;
         cout << "4. 存款" << endl;
         cout << "5. 取款" << endl;
+        cout << "6. 转账" << endl;
+        cout << "7. 销户" << endl;
         cout << "0. 退出系统" << endl;
         cout << "请选择：";
 
@@ -44,6 +46,12 @@ void System::mainMenu() {
             break;
         case 5:
             outMoney();
+            break;
+        case 6:
+            moveMoney();
+            break;
+        case 7:
+            closeAc();
             break;
         case 0:
             cout << "系统已退出。" << endl;
@@ -224,13 +232,92 @@ void System::outMoney() {
             cout << "取款失败：金额必须大于 0。" << endl;
             return;
         }
-        else if(om > pf->data.getMoney()) {
+        else if (!pf->data.outMoney(om)) {
             cout << "取款失败：余额不足。" << endl;
         }
         else {
-            pf->data.outMoney(om);
             cout << "取款成功，当前账户信息如下：" << endl;
             pf->data.display();
         }
     }
+}
+
+void System::moveMoney() {
+    string oacnumber;
+    string iacnumber;
+    cout << "请输入转出账号：";
+    cin >> oacnumber;
+    cout << "请输入转入账号：";
+    cin >> iacnumber;
+    Node<Account>* pfo = findByAcnumber(oacnumber);
+    Node<Account>* pfi = findByAcnumber(iacnumber);
+    if (pfo == nullptr) {
+        cout << "转账失败：转出账号不存在。" << endl;
+        return;
+    }
+    if (pfi == nullptr) {
+        cout << "转账失败：转入账号不存在。" << endl;
+        return;
+    }
+    if (pfi == pfo) {
+        cout << "转账失败：转出账号和转入账号不能相同。" << endl;
+        return;
+    }
+    cout << "请输入转账金额：";
+    double mon;
+    cin >> mon;
+
+    if (mon <= 0) {
+        cout << "转账失败：金额必须大于 0。" << endl;
+        return;
+    }
+    else if (!pfo->data.outMoney(mon)) {
+        cout << "转账失败：转出账户余额不足。" << endl;
+        return;
+    }
+    else {
+        pfi->data.inMoney(mon);
+        cout << "转账成功！" << endl;
+        cout << "转出账户当前信息：" << endl;
+        pfo->data.display();
+        cout << "转入账户当前信息：" << endl;
+        pfi->data.display();
+    }
+
+
+
+}
+
+
+void System::closeAc() {
+    string acnumber;
+    cout << "请输入要销户的银行账号：";
+    cin >> acnumber;
+    Node<Account>* pf = findByAcnumber(acnumber);
+
+    if (pf == nullptr) {
+        cout << "销户失败：账号不存在。" << endl;
+        return;
+    }
+    if (!pf->data.is_active()) {
+        cout << "销户失败：该账户已经销户。" << endl;
+        return;
+    }
+    //余额不为零
+    else if (pf->data.getMoney() > 1e-5) {
+        cout << "销户失败：账户余额不为 0，请先取款或转账清零。" << endl;
+        return;
+    }
+    else {
+        string closeday;
+
+        cout << "请输入销户日期：";
+        cin >> closeday;
+        pf->data.closeAc(closeday);
+        cout << "销户成功，账户信息如下：" << endl;
+        pf->data.display();
+
+    }
+
+
 }

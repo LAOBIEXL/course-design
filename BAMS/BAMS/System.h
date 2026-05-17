@@ -19,7 +19,7 @@ private:
 
 	void mainMenu();
 
-	void queryByAcnumber();
+	void queryByAcnumber();//按照账号查询；
 
 	void openAc();//开户
 	std::string allocateAcNumber(); //分配账户编号；
@@ -28,7 +28,11 @@ private:
 
 	void outMoney(); //取款；
 
+	void moveMoney(); //转账；
+
+	void closeAc();
 };
+
 
 
 
