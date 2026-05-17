@@ -1,5 +1,7 @@
 #include"Account.h"
 #include<iostream>
+#include<sstream>
+
 #include<iomanip>
 using namespace std;
 
@@ -25,7 +27,8 @@ Account::Account(
 	const std::string& address,
 	const std::string& openday,
 	const std::string& closeday,
-	const double money
+	const double money,
+	const std::string& status
 ):
 	acname_m(acname),
 	acnumber_m(acnumber),
@@ -36,7 +39,7 @@ Account::Account(
 	openday_m(openday),
 	closeday_m(closeday),
 	money_m(money),
-	status_m("Active")
+	status_m(status)
 {}
 
 const string& Account::getAcNumber() const {
@@ -103,4 +106,12 @@ void Account::display()const {
 	cout << "Óà¶î£º" << fixed << setprecision(2) << money_m << endl;
 	cout << "×´Ì¬£º" << status_m << endl;
 	cout << "----------------------------------------" << endl;
+}
+
+std::string Account::toline() const {
+	ostringstream oss;
+	oss << acnumber_m << "|" << acname_m << "|" << id_m << "|" << workplace_m << "|" << phone_m << "|" << address_m << "|" << openday_m << "|" << closeday_m << "|";
+	oss << fixed << setprecision(2) << money_m << "|";
+	oss << status_m;
+	return oss.str(); //½«Æ´½ÓµÄÄÚÈÝ·µ»ØÎª×Ö·û´®£»
 }

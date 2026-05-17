@@ -3,12 +3,14 @@
 #include"List.h"
 #include <iostream>
 #include<string>
+#include<fstream>
+#include<sstream>
 using namespace std;
 
 System::System() :nextAcNumber(100001) {};
 
 void System::run() {
-    InitData();
+    loadAc();
     mainMenu();
 
 }
@@ -54,6 +56,8 @@ void System::mainMenu() {
             closeAc();
             break;
         case 0:
+            saveAc();
+            cout << "账户信息已保存。" << endl;
             cout << "系统已退出。" << endl;
             break;
         default:
@@ -80,49 +84,6 @@ Node<Account>* System::findByAcnumber(const std::string& key) const {
     return accounts_m.find([key](const Account& a) {
         return key == a.getAcNumber();
         });
-}
-
-void System::InitData() {
-    //Account a1(
-    //    "100001",
-    //    "王明",
-    //    "330102200501010011",
-    //    "浙江工业大学",
-    //    "13800000001",
-    //    "杭州市拱墅区",
-    //    "2026-05-16",
-    //    "",
-    //    5000.0
-    //);
-
-    //accounts_m.push_back(a1);
-
-    //Account a2(
-    //    "100002",
-    //    "李华",
-    //    "330102200502020022",
-    //    "某科技公司",
-    //    "13800000002",
-    //    "杭州市西湖区",
-    //    "2026-05-17",
-    //    "",
-    //    1200.0
-    //);
-
-    //Account a3(
-    //    "100003",
-    //    "王芳",
-    //    "330102200503030033",
-    //    "某银行",
-    //    "13800000003",
-    //    "杭州市上城区",
-    //    "2026-05-18",
-    //    "",
-    //    3000.0
-    //);
-
-    //accounts_m.push_back(a2);
-    //accounts_m.push_back(a3);
 }
 
 
@@ -197,6 +158,10 @@ void System::depositMoney() {
         cout << "存款失败：账号不存在。" << endl;
         return;
     }
+    else if (!pf->data.is_active()) {
+        cout << "存款失败：该账户已销户，不能继续存款。" << endl;
+        return;
+    }
     else {
         cout << "请你输入要存入的款项金额：";
         double dep;
@@ -222,6 +187,10 @@ void System::outMoney() {
     Node<Account>* pf = findByAcnumber(acnumber);
     if (pf == nullptr) {
         cout << "取款失败：账号不存在。" << endl;
+        return;
+    }
+    else if (!pf->data.is_active()) {
+        cout << "取款失败：该账户已销户，不能继续取款。" << endl;
         return;
     }
     else {
@@ -261,6 +230,14 @@ void System::moveMoney() {
     }
     if (pfi == pfo) {
         cout << "转账失败：转出账号和转入账号不能相同。" << endl;
+        return;
+    }
+    if (!pfo->data.is_active()) {
+        cout << "转账失败：转出账户已销户，不能转账。" << endl;
+        return;
+    }
+    if (!pfi->data.is_active()) {
+        cout << "转账失败：转入账户已销户，不能接收转账。" << endl;
         return;
     }
     cout << "请输入转账金额：";
@@ -319,5 +296,61 @@ void System::closeAc() {
 
     }
 
+
+}
+
+void System::saveAc()const {
+    ofstream fout("accounts.txt");
+
+    //判断文件是否正常打开：
+    if (!fout.is_open()) {
+        cout << "文件保存失败：无法打开 accounts.txt" << endl;
+        return;
+    }
+    Node<Account>* ph = accounts_m.getHead();
+    while (ph != nullptr) {
+        string tmp = ph->data.toline();
+        fout << tmp << endl;
+        ph = ph->next;
+    }
+    fout.close();
+}
+
+void System::loadAc() {
+    ifstream fin("accounts.txt");
+
+    //判断打开；
+    if (!fin.is_open()) {
+        return;
+    }
+    string line;
+    while (getline(fin, line)) {
+        string a[10];
+        istringstream iss(line);
+        for (int i = 0; i < 10; i++) {
+            getline(iss, a[i], '|');
+        }//拆分；
+        Account newAc{
+            a[0],
+            a[1],
+            a[2],
+            a[3],
+            a[4],
+            a[5],
+            a[6],
+            a[7],
+            stod(a[8]),
+            a[9]
+        };
+        accounts_m.push_back(newAc);
+
+        int acnum_id = stoi(a[0]);
+        if (acnum_id >= nextAcNumber) {
+            nextAcNumber = acnum_id+1;
+        }
+
+    }
+
+    fin.close();
 
 }

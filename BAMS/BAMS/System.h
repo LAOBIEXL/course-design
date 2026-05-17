@@ -15,8 +15,6 @@ private:
 	Node<Account>* findByAcnumber(const std::string& key) const; //按照账户编号查找
 	void displayAllAc()const; //展示所有账号的信息；
 
-	void InitData();
-
 	void mainMenu();
 
 	void queryByAcnumber();//按照账号查询；
@@ -30,7 +28,11 @@ private:
 
 	void moveMoney(); //转账；
 
-	void closeAc();
+	void closeAc();//销户
+
+	void saveAc()const; //将转化好的字符串存入txt;
+
+	void loadAc();//载入账户；
 };
 
 

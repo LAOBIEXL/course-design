@@ -14,7 +14,8 @@ public:
 		const std::string& address,
 		const std::string& openday,
 		const std::string& closeday,
-		const double money
+		const double money,
+		const std::string& status = "Active"
 	);
 
 	const std::string& getAcNumber() const;
@@ -30,6 +31,8 @@ public:
 	void closeAc(const std::string& closeday);
 
 	void display()const;
+
+	std::string toline()const; //将账户信息转化为用"|"分隔的字符串；
 
 
 
