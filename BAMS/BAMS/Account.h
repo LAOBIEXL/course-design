@@ -1,5 +1,4 @@
-#ifndef ACCOUNT_H
-#define ACCOUNT_H
+#pragma once
 #include<string>
 
 class Account {
@@ -22,6 +21,9 @@ public:
 
 	const std::string& getUserName() const;
 	const std::string& getUserId() const;
+	const std::string& getPhone() const;
+	const std::string& getOpenDay() const;
+	const std::string& getCloseDay() const;
 	double getMoney() const;
 	const std::string& getStatus() const;
 	bool is_active()const;
@@ -34,7 +36,14 @@ public:
 
 	std::string toline()const; //将账户信息转化为用"|"分隔的字符串；
 
+	void changeInfo( //账户信息修改；
+		const std::string& name,
+		const std::string& phone,
+		const std::string& workp,
+		const std::string& address
+	);
 
+	bool matchKey(const std::string& key) const; //关键词匹配，为模糊查找功能模块；
 
 private:
 	std::string acnumber_m; // 账号
@@ -48,7 +57,5 @@ private:
 	double money_m; // 余额
 	std::string status_m;      // 账户状态
 
-
+	
 };
-
-#endif

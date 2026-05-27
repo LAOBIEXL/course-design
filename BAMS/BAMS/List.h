@@ -16,7 +16,7 @@ public:
 	};
 	bool empty() const{
 		return cnt == 0;
-	}
+	} 
 	int size() const{
 		return cnt;
 	}
@@ -36,8 +36,11 @@ public:
 	}
 
 	//防止浅拷贝出错：
-	List& operator=(const List<T>&other) = delete;
+	List<T>& operator=(const List<T>& other) = delete;
 	List(const List<T>& other) = delete;
+
+	template<class com>
+	void sort(com cmp);//通用链表排序；
 
 
 private:
@@ -86,4 +89,19 @@ Node<T>* List<T>::find(Fkey key) const {
 		p = p->next;
 	}
 	return nullptr;
+}
+
+template<class T>
+template<class com>
+void List<T>::sort(com cmp) {
+	// 通过交换节点中的 data 完成排序，不改变链表指针结构。
+	for (Node<T>* i = head; i != nullptr; i = i->next) {
+		for (Node<T>* j = i->next; j != nullptr; j = j->next) {
+			if (cmp(j->data, i->data)) {
+				T tmp = i->data;
+				i->data = j->data;
+				j->data = tmp;
+			}
+		}
+	}
 }

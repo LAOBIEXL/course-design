@@ -54,6 +54,19 @@ const string& Account::getUserId()  const {
 	return id_m;
 }
 
+
+const string& Account::getPhone() const {
+	return phone_m;
+}
+
+const string& Account::getOpenDay() const {
+	return openday_m;
+}
+
+const string& Account::getCloseDay() const {
+	return closeday_m;
+}
+
 double Account::getMoney() const {
 	return money_m;
 }
@@ -114,4 +127,28 @@ std::string Account::toline() const {
 	oss << fixed << setprecision(2) << money_m << "|";
 	oss << status_m;
 	return oss.str(); //将拼接的内容返回为字符串；
+}
+
+void Account::changeInfo(
+	const string& name,
+	const string& phone,
+	const string& workp,
+	const string& address
+) {
+	acname_m = name;
+	phone_m = phone;
+	workplace_m = workp;
+	address_m = address;
+}
+
+bool Account::matchKey(const string& key) const {
+	return acnumber_m.find(key) != std::string::npos ||
+		acname_m.find(key) != std::string::npos ||
+		id_m.find(key) != std::string::npos ||
+		workplace_m.find(key) != std::string::npos ||
+		phone_m.find(key) != std::string::npos ||
+		address_m.find(key) != std::string::npos ||
+		openday_m.find(key) != std::string::npos ||
+		closeday_m.find(key) != std::string::npos ||
+		status_m.find(key) != std::string::npos;
 }

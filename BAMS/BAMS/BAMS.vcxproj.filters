@@ -30,9 +30,15 @@
     <ClCompile Include="System.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AdminUser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Deel.h">
+    <ClInclude Include="Deal.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Account.h">
@@ -45,6 +51,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="List.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AdminUser.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
