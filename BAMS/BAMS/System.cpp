@@ -11,20 +11,24 @@
 
 using namespace std;
 
-System::System() :nextAcNumber(100001),nextDealNum_m(1), role_m(0), user_id_m(""), admin_m("123456") {};
+System::System() :nextAcNumber(100001),nextDealNum_m(1), role_m(-1), user_id_m(""), admin_m("123456") {};
 
 void System::run() {
     loadUsers();
     loadAc();
     loadDeals();
+    while (role_m != 0) {
+        login();
 
-    login();
-
-    if (role_m == 1) {
-        adminMenu();
-    }
-    else if (role_m == 2) {
-        userMenu();
+        if (role_m == 1) {
+            adminMenu();
+        }
+        else if (role_m == 2) {
+            userMenu();
+        }
+        else if (role_m == 0) {
+            cout << "系统退出。" << endl;
+        }
     }
 }
 
@@ -50,7 +54,7 @@ void System::login() {
         }
         else {
             cout << "管理员密码错误，系统退出。" << endl;
-            role_m = 0;
+            role_m = -1;
         }
     }
     else if (choice == 2) {
@@ -67,7 +71,7 @@ void System::login() {
 
         if (userNode == nullptr || !userNode->data.ckPassword(password)) {
             cout << "登录失败：用户名或密码错误。" << endl;
-            role_m = 0;
+            role_m = -1;
             return;
         }
 
@@ -77,8 +81,7 @@ void System::login() {
         cout << "用户登录成功。" << endl;
     }
     else {
-        role_m = 0;
-        cout << "系统退出。" << endl;
+        role_m = choice;
     }
 }
 //管理员菜单：
