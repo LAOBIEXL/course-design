@@ -993,7 +993,7 @@ std::string System::getTime() const {
     time_t now = time(nullptr);//获取时间戳
 
     tm localTime;
-    localtime_s(&localTime, &now);//VS2022 下使用安全版本转换本地时间；
+    localtime_s(&localTime, &now);
 
     char a[30];
     strftime(a, sizeof(a), "%Y-%m-%d %H:%M:%S", &localTime);

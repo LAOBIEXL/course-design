@@ -35,10 +35,6 @@ public:
 		clear();
 	}
 
-	//∑¿÷π«≥øΩ±¥≥ˆ¥Ì£∫
-	List<T>& operator=(const List<T>& other) = delete;
-	List(const List<T>& other) = delete;
-
 	template<class com>
 	void sort(com cmp);//Õ®”√¡¥±Ì≈≈–Ú£ª
 

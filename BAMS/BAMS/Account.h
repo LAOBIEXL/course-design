@@ -3,7 +3,7 @@
 
 class Account {
 public:
-	Account();//安全默认初始化
+	Account();//无参初始化
 	Account(
 		const std::string& acnumber,
 		const std::string& acname,

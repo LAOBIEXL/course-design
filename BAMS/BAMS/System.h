@@ -29,7 +29,7 @@ private:
 
 	void displayAllAc()const; //展示所有账号的信息；
 
-	void mainMenu();
+	void mainMenu();//
 
 	void login();//登录界面；
 	void adminMenu();//管理员界面；
@@ -85,7 +85,7 @@ private:
 	
 	void showMine() const; //展示我名下的所有账号；
 
-	AdminUser admin_m;
+	AdminUser admin_m;//123456密码管理员
 
 	std::string allocateDealNum();//获取当前流水号；
 
